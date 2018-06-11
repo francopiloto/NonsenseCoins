@@ -3,6 +3,8 @@
 
 class Block
 {
+	public const PATTERN = "00000";
+	
 	private $data;
 	private $hash;
 	private $previousBlock;
@@ -26,12 +28,16 @@ class Block
 		return $this->hash;
 	}
 	
+	public function setHash($hash) {
+		$this->hash = $hash;
+	}
+	
 	public function update($data)
 	{
 		$this->data = $data;		
 		$this->hash = $this->calculateHash();
 	}
-	
+		
 	// recursively check if the calculated hash matches the stored hash
 	public function validate()
 	{
