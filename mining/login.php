@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include "database.php";
+	require "database.php";
 		
 	if (array_key_exists("username", $_SESSION) && $_SESSION["username"] != "")	{
 		header("location:user.php");

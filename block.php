@@ -3,8 +3,6 @@
 
 class Block
 {
-	public const PATTERN = "00000";
-	
 	private $data;
 	private $hash;
 	private $previousBlock;

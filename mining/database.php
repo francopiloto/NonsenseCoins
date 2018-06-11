@@ -1,8 +1,11 @@
 <?php
 	require "rb-mysql.php";
 	
-	function connect() {
-		R::setup("mysql:host=localhost;dbname=mad3134_mining","root", "");
+	function connect()
+	{
+		if (!R::testConnection()) {
+			R::setup("mysql:host=localhost;dbname=mad3134_mining","root", "");
+		}
 	}
 	
 	function findUserByName($name) 
@@ -33,19 +36,41 @@
 	function getLastBlock() 
 	{
 		connect();
-		$block = R::findOne("blocks", "ORDER BY id LIMIT 1");
+		$block = R::findOne("blocks", "ORDER BY id DESC LIMIT 1");
 		R::close();
 		
 		return $block;
 	}
 	
-	function addBlock($data, $hash)
+	function loadChain()
 	{
+		connect();
+		$blocks = R::findAll("blocks", "ORDER BY id");
+		R::close();
+		
+		return $blocks;
+	}
+	
+	function addBlock($data, $hash, $username)
+	{
+		connect();
 		$block = R::dispense('blocks');
 		
 		$block->data = $data;
 		$block->hash = $hash;
+		$block->username = $username;
 		
 		R::store($block);
+		
+		R::close();
+	}
+	
+	function getUserBalance($username)
+	{
+		connect();
+		$blocks = R::findAll("blocks", "username = ?", [$username]);
+		R::close();
+		
+		return $blocks;
 	}
 ?>

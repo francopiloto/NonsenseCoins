@@ -1,6 +1,6 @@
 <?php
 
-	include "../block.php";
+	require "admin.php";
 	
 	class Miner
 	{
@@ -15,17 +15,13 @@
 		{
 			$this->running = true;
 			
-			while ($this->running && !$this->isValid()) {
+			while ($this->running && !Admin::isPatternValid($this->block)) {
 				$this->block->update($this->block->getData() + 1);
 			}
 		}
 		
 		public function stop() {
 			$this->running = false;
-		}
-		
-		public function isValid() {			
-			return substr($this->block->getHash(), 0, strlen(Block::PATTERN)) === Block::PATTERN;
 		}
 		
 		public function getBlock() {
